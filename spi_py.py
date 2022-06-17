@@ -17,19 +17,22 @@ June 2022
     
 def main():
     ''' main function to prompt the user and pass out task'''
-    print("Enter the number of what would you like to do...\n",
+    
+    try:
+        print("Enter the number of what would you like to do... cntrl c to cancel\n",
           "1) Load an excel doc of tags.\n",
           "2) Open a spec.\n",
           "3) Create a spec. - not implemented yet")
-    choice = input("=> ")
-    try:
+        choice = input("=> ")
         if choice == '1': # load an excel doc
             tag = get_tag_file()
             wd = connect_to('Smart Instrumentation')
-            wd.set_focus()
             create_tags(wd,tag)
         elif choice == '2': # open a specific spec
-            open_spec(wd,get_tag_input())
+            tag = get_tag_input()
+            print("Opening tag",tag)
+            wd = connect_to('Smart Instrumentation')
+            open_spec(wd,tag)
         elif choice == '3': # create a spec
             print("This is not ready yet")
             main()
@@ -66,7 +69,13 @@ def create_tags(wd,tags):
 =============================================================================='''
 
 def open_spec(wd,tag):
-    return True
+    # start the spec module
+    click_on('images\\spec_index.png')
+    click_on('images\\create_spec.png')
+    for t in tag:
+        keyboard.send_keys(t)
+        keyboard.send_keys('{TAB}')
+    keyboard.send_keys('{ENTER}')
     
 def get_tag_input():
     tag_type = input("Input tag type (ex PT, TE): ")
@@ -112,7 +121,9 @@ def connect_to(name):
     except IndexError:
         print(" ** ERROR: Please open an instance of SPI.")
         quit()
-    return application.Application(backend="win32").connect(handle=w_hnd).top_window()
+    wd = application.Application(backend="win32").connect(handle=w_hnd).top_window()
+    wd.set_focus()
+    return wd
     
 def click_on(img):
     ''' wrapper to click on a image stored in cur.path\images '''
