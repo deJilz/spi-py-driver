@@ -121,7 +121,7 @@ class MyApp(tk.Tk):
 class GUI(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
-        self.main_frame = tk.Frame(self, bg="#BEB2A7", height=600, width=1024)
+        self.main_frame = tk.Frame(self, bg="#EFF6F5", height=600, width=1024)
         # self.main_frame.pack_propagate(0)
         self.main_frame.pack(fill="both", expand="true")
         self.main_frame.grid_rowconfigure(0, weight=1)
@@ -131,21 +131,21 @@ class PageOne(GUI):
     def __init__(self, parent, controller):
         GUI.__init__(self, parent)
 
-        label1 = tk.Label(self.main_frame, font=("Verdana", 20), text="Page One")
+        label1 = tk.Label(self.main_frame, font=("Verdana", 20), text="SPI PY GUI")
+        
+        v1=tk.IntVar()
+        v1.set(1)
+        self.r1=tk.Radiobutton(self.main_frame, text="Load an excel sheet", variable=v1,value=1)
+        self.r2=tk.Radiobutton(self.main_frame, text="Open a spec", variable=v1,value=2)
+        self.r3=tk.Radiobutton(self.main_frame, text="Create a spec", variable=v1,value=3)
+        self.r1.place(x=220, y=200)
+        self.r2.place(x=220, y=240)
+        self.r3.place(x=220, y=260)
         label1.pack(side="top")
+        
 
 def create_user_window():
     root = MyApp()
-    #root.withdraw()
-    root.title("Tkinter App Template")
-
+    root.title("Smart Plant Instrumentation GUI")
+    root.geometry("400x300+10+10")
     root.mainloop()
-    # window=Tk()
-    # window.config(menu=MenuBar())
-    
-    # mywin=MyWindow(window)
-    
-    # window.title('SPI Selector')
-    # window.geometry("400x300+10+10")
-    # window.mainloop()
-    

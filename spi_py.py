@@ -8,6 +8,7 @@ from pywinauto import Desktop, application, keyboard
 import warnings
 from tkinter.filedialog import askopenfilename
 from tkinter import Tk
+import spi_py_gui
 # pillow
 """
 connor
@@ -22,7 +23,8 @@ def main():
         print("Enter the number of what would you like to do... cntrl c to cancel\n",
           "1) Load an excel doc of tags.\n",
           "2) Open a spec.\n",
-          "3) Create a spec. - not implemented yet")
+          "3) Create a spec. - not implemented yet\n",
+          "4) Launch the GUI.")
         choice = input("=> ")
         if choice == '1': # load an excel doc
             tag = get_tag_file()
@@ -36,6 +38,9 @@ def main():
         elif choice == '3': # create a spec
             print("This is not ready yet")
             main()
+            quit()
+        elif choice == '4':
+            spi_py_gui.create_user_window()
             quit()
         else:
             print(" ***\n please select a proper choice or press cntrl c to cancel\n ***\n")
@@ -68,14 +73,15 @@ def create_tags(wd,tags):
                 Option 2: 
 =============================================================================='''
 
-def open_spec(wd,tag):
+def open_spec(wd,tag,create=False):
     # start the spec module
     click_on('images\\spec_index.png')
     click_on('images\\create_spec.png')
     for t in tag:
         keyboard.send_keys(t)
         keyboard.send_keys('{TAB}')
-    keyboard.send_keys('{ENTER}')
+    if not create:
+        keyboard.send_keys('{ENTER}')
     
 def get_tag_input():
     tag_type = input("Input tag type (ex PT, TE): ")
@@ -87,7 +93,13 @@ def get_tag_input():
                 Option 3: 
 =============================================================================='''
     
-def create_spec(wd):
+def create_spec(wd,tag):
+    
+    for tag in tags:
+        open_spec(wd,tag,True)
+        keyboard.send_keys('{TAB}')
+        # send_keys for form number - could be array of defaults or could get passed in excel
+        keyboard.send_keys('{ENTER}')
     return True
 
 
