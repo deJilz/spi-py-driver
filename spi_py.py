@@ -40,7 +40,7 @@ def main():
             main()
             quit()
         elif choice == '4':
-            spi_py_gui.create_user_window()
+            spi_py_gui.create_gui_window()
             quit()
         else:
             print(" ***\n please select a proper choice or press cntrl c to cancel\n ***\n")
